@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.saas.dao.CompanyDao">
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.power.saas.entity.Company">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="address" property="address"/>
+        <result column="mobile" property="mobile"/>
+        <result column="duty_paragraph" property="dutyParagraph"/>
+    </resultMap>
+
+    <!-- t_company table all fields -->
+    <sql id="Base_Column_List">
+        id,name,address,mobile,duty_paragraph
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Base_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and mobile = #{mobile}
+            </if>
+            <if test="dutyParagraph != null and dutyParagraph != ''">
+                and duty_paragraph = #{dutyParagraph}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 插入记录 -->
+    <insert id="insert" parameterType="Company">
+        insert into t_company(id,name,address,mobile,duty_paragraph)
+ values(#{id},#{name},#{address},#{mobile},#{dutyParagraph})
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="updateByPrimaryKey" parameterType="Company">
+        update t_company set name=#{name},address=#{address},mobile=#{mobile},duty_paragraph=#{dutyParagraph} where id=#{id}
+    </update>
+
+    <!-- 修改记录，修改不为空的字段 -->
+    <update id="updateByPrimaryKeySelective" parameterType="Company">
+        update t_company set
+        <trim suffixOverrides=",">
+            <if test="name != null  ">
+                name=#{name},
+            </if>
+            <if test="address != null  ">
+                address=#{address},
+            </if>
+            <if test="mobile != null  ">
+                mobile=#{mobile},
+            </if>
+            <if test="dutyParagraph != null  ">
+                duty_paragraph=#{dutyParagraph},
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <!-- 根据id查询 公司信息 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_company where id = #{id}
+    </select>
+
+    <!-- 删除记录 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete 	 from t_company where id = #{id}
+    </delete>
+
+    <!-- 公司信息 列表总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="Company">
+        select count(1) from t_company
+        <include refid="Base_Where_Clause"/>
+    </select>
+
+    <!-- 查询公司信息列表 -->
+    <select id="queryByList" resultMap="BaseResultMap" parameterType="Company">
+        select
+        <include refid="Base_Column_List"/>
+        from t_company
+        <include refid="Base_Where_Clause"/>
+        <if test="pageUtil != null">
+            limit #{pageUtil.startRow},#{pageUtil.endRow}
+        </if>
+    </select>
+</mapper>   
