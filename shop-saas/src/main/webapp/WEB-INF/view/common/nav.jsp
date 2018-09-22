@@ -11,7 +11,7 @@
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">桌台管理 <span class="caret"></span></a>
         <ul class="dropdown-menu">
-            <li><a href="#">桌台类别</a></li>
+            <li><a href="/deskType">桌台类别</a></li>
             <li><a href="#">桌台信息</a></li>
         </ul>
     </li>
