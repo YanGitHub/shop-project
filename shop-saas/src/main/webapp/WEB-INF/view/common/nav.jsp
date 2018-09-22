@@ -25,8 +25,8 @@
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">销售管理 <span class="caret"></span></a>
         <ul class="dropdown-menu">
-            <li><a href="#">销售单</a></li>
-            <li><a href="#">销售统计</a></li>
+            <li><a href="/bill">销售单</a></li>
+            <li><a href="/order">销售统计</a></li>
         </ul>
     </li>
 </ul>

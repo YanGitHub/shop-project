@@ -20,7 +20,7 @@ public class Order extends BaseEntity{
     //
 	private Long id;
     //时间
-	private Date time;
+	private String time;
     //应收
 	private BigDecimal receivable;
     //实收
@@ -34,11 +34,11 @@ public class Order extends BaseEntity{
 		this.id = id;
 	}
 
-	public Date getTime() {
+	public String getTime() {
 		return this.time;
 	}
 
-	public void setTime(Date time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 
