@@ -26,7 +26,7 @@ public class BillMenu extends BaseEntity{
     //类别
 	private String menuTypeCode;
     //时间
-	private Date time;
+	private String time;
     //数量
 	private Integer num;
     //是否结账 1已结 0 未结
@@ -66,11 +66,11 @@ public class BillMenu extends BaseEntity{
 		this.menuTypeCode = menuTypeCode;
 	}
 
-	public Date getTime() {
+	public String getTime() {
 		return this.time;
 	}
 
-	public void setTime(Date time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 
