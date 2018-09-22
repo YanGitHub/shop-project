@@ -27,4 +27,6 @@ public interface BillDao {
 
     List<Bill> queryByList(Bill record);
 
+    List<Bill> queryListOrderByTime(Bill record);
+
 }

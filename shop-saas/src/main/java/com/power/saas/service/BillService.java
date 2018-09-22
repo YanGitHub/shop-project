@@ -55,4 +55,8 @@ public class BillService {
     public List<Bill> queryByList(Bill record) {
         return dao.queryByList(record);
     }
+
+    public List<Bill> queryListOrderByTime(Bill record) {
+        return dao.queryListOrderByTime(record);
+    }
 }

@@ -76,4 +76,21 @@ public class OrderFoodController {
         return map;
     }
 
+
+    @RequestMapping(value = "/settled",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> settled(@RequestParam(value = "deskInfoId") Long deskInfoId,
+                                      @RequestParam(value = "amount")Double amount,
+                                      @RequestParam(value = "amt")Double amt,
+                                      @RequestParam(value = "billNo")String billNo){
+        Map<String,Object> map = new HashMap<String, Object>();
+        try {
+            orderFoodService.settled(deskInfoId,amount,amt,billNo);
+            map.put("status",Boolean.TRUE);
+        }catch (Exception e){
+            e.printStackTrace();
+            map.put("status",Boolean.FALSE);
+        }
+        return map;
+    }
 }

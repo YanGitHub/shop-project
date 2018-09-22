@@ -34,6 +34,16 @@ public class BillMenu extends BaseEntity{
     //
 	private String note;
 
+	private Double price;
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
 	public Long getId() {
 		return this.id;
 	}

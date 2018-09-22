@@ -76,7 +76,8 @@ public class DeskInfoController {
             deskInfoService.insert(deskInfo);
             DeskStatus deskStatus =new DeskStatus();
             deskStatus.setId(id);
-            deskStatus.setStatus("正在用餐");
+            deskStatus.setStatus("无人用餐");
+            deskStatus.setPersonNum(0);
             deskStatusService.insert(deskStatus);
             map.put("status",Boolean.TRUE);
             map.put("msg","保存成功");

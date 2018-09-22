@@ -117,4 +117,13 @@
             limit #{pageUtil.startRow},#{pageUtil.endRow}
         </if>
     </select>
+
+    <!-- 查询开台单信息表列表 -->
+    <select id="queryListOrderByTime" resultMap="BaseResultMap" parameterType="Bill">
+        select
+        <include refid="Base_Column_List"/>
+        from t_bill
+        <include refid="Base_Where_Clause"/>
+        ORDER BY time desc
+    </select>
 </mapper>   

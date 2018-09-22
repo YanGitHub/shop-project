@@ -8,11 +8,12 @@
         <result column="status_id" property="statusId"/>
         <result column="name" property="name"/>
         <result column="code" property="code"/>
+        <result column="bill_id" property="billId"/>
     </resultMap>
 
     <!-- t_desk_info table all fields -->
     <sql id="Base_Column_List">
-        id,type_id,status_id,name,code
+        id,type_id,status_id,name,code,bill_id
     </sql>
 
     <!-- 查询条件 -->
@@ -34,18 +35,21 @@
             <if test="code != null and code != ''">
                 and code = #{code}
             </if>
+            <if test="billId != null and billId != ''">
+                and bill_id = #{billId}
+            </if>
         </trim>
     </sql>
 
     <!-- 插入记录 -->
     <insert id="insert" parameterType="DeskInfo">
-        insert into t_desk_info(id,type_id,status_id,name,code)
-        values(#{id},#{typeId},#{statusId},#{name},#{code})
+        insert into t_desk_info(id,type_id,status_id,name,code,bill_id)
+        values(#{id},#{typeId},#{statusId},#{name},#{code},#{billId})
     </insert>
 
     <!-- 根据id，修改记录-->
     <update id="updateByPrimaryKey" parameterType="DeskInfo">
-        update t_desk_info set type_id=#{typeId},status_id=#{statusId},name=#{name},code=#{code} where id=#{id}
+        update t_desk_info set type_id=#{typeId},status_id=#{statusId},name=#{name},code=#{code},bill_id=#{billId} where id=#{id}
     </update>
 
     <!-- 修改记录，修改不为空的字段 -->
@@ -63,6 +67,9 @@
             </if>
             <if test="code != null  ">
                 code=#{code},
+            </if>
+            <if test="billId != null  ">
+                bill_id=#{billId},
             </if>
         </trim>
         where id=#{id}

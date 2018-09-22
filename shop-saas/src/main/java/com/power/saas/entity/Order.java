@@ -22,9 +22,9 @@ public class Order extends BaseEntity{
     //时间
 	private String time;
     //应收
-	private BigDecimal receivable;
+	private Double receivable;
     //实收
-	private BigDecimal actualReceipt;
+	private Double actualReceipt;
 
 	public Long getId() {
 		return this.id;
@@ -42,19 +42,19 @@ public class Order extends BaseEntity{
 		this.time = time;
 	}
 
-	public BigDecimal getReceivable() {
+	public Double getReceivable() {
 		return this.receivable;
 	}
 
-	public void setReceivable(BigDecimal receivable) {
+	public void setReceivable(Double receivable) {
 		this.receivable = receivable;
 	}
 
-	public BigDecimal getActualReceipt() {
+	public Double getActualReceipt() {
 		return this.actualReceipt;
 	}
 
-	public void setActualReceipt(BigDecimal actualReceipt) {
+	public void setActualReceipt(Double actualReceipt) {
 		this.actualReceipt = actualReceipt;
 	}
 }

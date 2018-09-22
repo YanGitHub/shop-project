@@ -11,6 +11,7 @@
         <result column="num" property="num"/>
         <result column="is_settled" property="isSettled"/>
         <result column="note" property="note"/>
+        <result column="real_price" property="price"/>
     </resultMap>
 
     <!-- t_bill_menu table all fields -->
@@ -110,9 +111,13 @@
     <!-- 查询点菜信息表列表 -->
     <select id="queryByList" resultMap="BaseResultMap" parameterType="BillMenu">
         select
-        <include refid="Base_Column_List"/>
-        from t_bill_menu
-        <include refid="Base_Where_Clause"/>
+        m.id,m.bill_no,m.menu_code,m.menu_type_code,m.time,m.num,m.is_settled,m.note,i.real_price
+        from t_bill_menu m
+        LEFT JOIN t_menu_info i on i.code = m.menu_code
+        WHERE TRUE
+        <if test="billNo != null and billNo != ''">
+            and m.bill_no = #{billNo}
+        </if>
         <if test="pageUtil != null">
             limit #{pageUtil.startRow},#{pageUtil.endRow}
         </if>

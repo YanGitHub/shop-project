@@ -55,6 +55,7 @@
                             </p>
                             <p>
                                 <a href="#" onclick="selectedMenu('${item.deskStatus.status}',${item.id})" class="btn btn-primary" role="button">点餐</a>
+                                <a href="#" onclick="settled('${item.deskStatus.status}',${item.id})" class="btn btn-default" role="button">结算</a>
                             </p>
                         </div>
                     </div>
@@ -103,6 +104,36 @@
     <!-- /.modal-dialog -->
 </div>
 
+<div id="settledModal" class="modal fade bs-example-modal-lg" tabindex="1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width: 600px;height: 200px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title">结算</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-2">应收</div>
+                    <div class="col-lg-4">
+                        <input id="amt" class="easyui-textbox" readonly="readonly" name="amt"/>
+                    </div>
+                    <div class="col-lg-2">实收</div>
+                    <div class="col-lg-4">
+                        <input id="amount" class="easyui-textbox" name="amount"/>
+                    </div>
+                </div>
+                <table id="gridMx"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="doSettled()">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 
 <script>
     var deskInfoId = 0;
@@ -112,7 +143,7 @@
             striped: true,
             url: '/menuInfo/getList',
             height: 400,
-            singleSelect: true,
+            singleSelect: false,
             pagination: true,
             pageSize: 10,
             columns: [
@@ -129,6 +160,36 @@
                 ]
             ]
         });
+    }
+
+    function doSettled() {
+        var amount =$("#amount").textbox('getValue');
+        var amt =$("#amt").textbox('getValue');
+        if (amount ==  null || amount == ''){
+            alertLittle("请输入结算金额");
+            return;
+        }
+        var item = $("#gridMx").datagrid('getRows');
+        var billNo = item[0].billNo;
+        $.post('/orderFood/settled',{deskInfoId:deskInfoId,amount:amount,amt:amt,billNo:billNo},function (data) {
+            if (data.status){
+                alertLittle("结算成功");
+                window.location.href = "/orderFood";
+            }else {
+                alertLittle("结算失败");
+            }
+        })
+    }
+
+    function settled(status,deskId) {
+        deskInfoId = deskId;
+        if (status == "无人用餐"){
+            alertLittle("无人用餐，无法完成结算");
+            return;
+        }else {
+            $("#settledModal").modal({backdrop:false});
+            loadMenuList();
+        }
     }
 
     function selectedMenu(status,deskId) {
@@ -160,10 +221,45 @@
                                     num:num},function (data) {
            if (data.status){
                alertLittle("成功");
+               window.location.href = "/orderFood";
            }else {
                alertLittle("失败");
            }
         });
+    }
+
+    function loadMenuList() {
+        $('#gridMx').datagrid({
+            rownumbers: true,
+            striped: true,
+            height: 250,
+            singleSelect: true,
+            pagination: false,
+            url: '/billMenu/getListByDeskId?deskInfoId=' + deskInfoId,
+            onLoadSuccess: function (row, data) {
+                caclulateAmt();
+            },
+            columns: [
+                [
+                    {field: 'id', title: '', hidden: true},
+                    {field: 'menuCode', title: '菜单编号', width: 80},
+                    {field: 'menuTypeCode', title: '类别', align: 'center', width: 100},
+                    {field: 'time', title: '时间', align: 'center', width: 150},
+                    {field: 'num', title: '数量', align: 'center', width: 150},
+                    {field: 'price', title: '价格', align: 'center', width: 150},
+                    {field: 'isSettled', title: '是否结账', align: 'center', width: 80},
+                    {field: 'note', title: '备注', align: 'center', width: 150}
+                ]
+            ]
+        });
+    }
+    function caclulateAmt() {
+        var item = $("#gridMx").datagrid('getRows');
+        var sum = 0.0;
+        for (var i = 0;i < item.length;i++){
+            sum += parseFloat(item[i].price);
+        }
+        $("#amt").textbox('setValue',sum);
     }
 </script>
 </body>
