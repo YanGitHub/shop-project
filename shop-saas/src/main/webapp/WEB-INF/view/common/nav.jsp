@@ -1,34 +1,54 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <ul class="nav navbar-nav">
-    <li><a href="/orderFood">点餐</a></li>
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">会员管理 <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="/vipType">会员类别</a></li>
-            <li><a href="/vipInfo">会员信息</a></li>
-        </ul>
-    </li>
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">桌台管理 <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="/deskType">桌台类别</a></li>
-            <li><a href="/deskInfo">桌台信息</a></li>
-        </ul>
-    </li>
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">菜单管理 <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="/menuType">菜单类别</a></li>
-            <li><a href="/menuInfo">菜单信息</a></li>
-        </ul>
-    </li>
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">销售管理 <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="/bill">销售单</a></li>
-            <li><a href="/order">销售统计</a></li>
-        </ul>
-    </li>
+
+    <c:if test="${isManager == 1}">
+        <li><a href="/orderFood">点餐</a></li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">会员管理 <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="/vipType">会员类别</a></li>
+                <li><a href="/vipInfo">会员信息</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">桌台管理 <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="/deskType">桌台类别</a></li>
+                <li><a href="/deskInfo">桌台信息</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">菜单管理 <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="/menuType">菜单类别</a></li>
+                <li><a href="/menuInfo">菜单信息</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">销售管理 <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="/bill">销售单</a></li>
+                <li><a href="/order">销售统计</a></li>
+            </ul>
+        </li>
+    </c:if>
+    <c:if test="${isManager == 2}">
+        <li><a href="/orderFood">点餐</a></li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">会员管理 <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="/vipType">会员类别</a></li>
+                <li><a href="/vipInfo">会员信息</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">菜单管理 <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="/menuType">菜单类别</a></li>
+                <li><a href="/menuInfo">菜单信息</a></li>
+            </ul>
+        </li>
+    </c:if>
 </ul>
 
 <ul class="nav navbar-nav navbar-right">

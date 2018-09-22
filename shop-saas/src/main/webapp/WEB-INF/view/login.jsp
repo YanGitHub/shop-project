@@ -122,7 +122,7 @@
         var password = $('#password').val().trim();
         $.post('/verifyLogin', {userName: name, password: password}, function (data) {
             if (data.status) {
-                window.location.href = "/index";
+                window.location.href = "/orderFood";
             } else {
                 alertLittle(data.msg);
             }
