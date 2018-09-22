@@ -2,13 +2,11 @@
 <%--引入jstl--%>
 <%@include file="common/tag.jsp" %>
 <!DOCTYPE html>
-<html>
 <head>
-    <title>饭店管理系统</title>
+    <title>会员信息</title>
     <%@include file="common/head.jsp" %>
 </head>
 <body>
-
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -34,7 +32,7 @@
 <div class="container" style="margin-top: 60px;">
     <ol class="breadcrumb" style="margin-bottom: 10px">
         <li><a href="#">会员管理</a></li>
-        <li><a href="#">会员类型</a></li>
+        <li><a href="#">会员信息</a></li>
     </ol>
 
     <div class="row">
@@ -54,33 +52,47 @@
     </div>
 </div>
 
-<div id="createModal" class="modal fade bs-example-modal-sm" tabindex="1" role="dialog">
-    <div class="modal-dialog modal-sm">
+<div id="createModal" class="modal fade bs-example-modal-lg" tabindex="1" role="dialog">
+    <div class="modal-dialog modal-lg" style="width: 500px;height: 200px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h5 class="modal-title">会员类型</h5>
+                <h5 class="modal-title">会员信息</h5>
             </div>
             <div class="modal-body">
                 <table>
                     <input id="id" hidden="hidden">
                     <tr>
-                        <th class="tb-lab">类别名称</th>
+                        <th class="tb-lab">会员编号</th>
+                        <td>
+                            <input class="easyui-textbox" id="code" name="code" style="width:168px;height:24px">
+                        </td>
+                        <th class="tb-lab">会员名称</th>
                         <td>
                             <input class="easyui-textbox" id="name" name="name" style="width:168px;height:24px">
                         </td>
                     </tr>
                     <tr>
-                        <th class="tb-lab">价格</th>
+                        <th class="tb-lab">手机号</th>
                         <td>
-                            <input class="easyui-textbox" id="price" name="price" style="width:168px;height:24px">
+                            <input class="easyui-textbox" id="tel" name="tel" style="width:168px;height:24px">
+                        </td>
+                        <th class="tb-lab">密码</th>
+                        <td>
+                            <input class="easyui-textbox" id="pwd" name="pwd" style="width:168px;height:24px">
                         </td>
                     </tr>
                     <tr>
-                        <th class="tb-lab">折扣率</th>
+                        <th class="tb-lab">备注</th>
                         <td>
-                            <input class="easyui-textbox" id="discount" name="discount" style="width:168px;height:24px">
+                            <input class="easyui-textbox" id="note" name="note" style="width:168px;height:24px">
+                        </td>
+                        <th class="tb-lab">类型</th>
+                        <td>
+                            <input id="vipType" class="easyui-combobox" name="vipType"
+                                   style="width: 168px;height: 24px"
+                                   data-options="valueField:'id',textField:'name',url:'/vipType/combobox',value:null"/>
                         </td>
                     </tr>
                 </table>
@@ -120,7 +132,7 @@
     $('#grid').datagrid({
         rownumbers: true,
         striped: true,
-        url: '/vipType/getList',
+        url: '/vipInfo/getList',
         height: 450,
         singleSelect: true,
         pagination: true,
@@ -128,40 +140,49 @@
         columns: [
             [
                 {field: 'id', title: '', hidden: true},
-                {field: 'name', title: '类别名称', width: 80},
-                {field: 'price', title: '价格', align: 'center', width: 100},
-                {field: 'discount', title: '折扣率', align: 'center', width: 80}
+                {field: 'code', title: '会员编号', width: 80},
+                {field: 'name', title: '姓名', align: 'center', width: 100},
+                {field: 'tel', title: '手机号', align: 'center', width: 80},
+                {field: 'pwd', title: '密码', align: 'center', width: 80},
+                {field: 'note', title: '备注', align: 'center', width: 80},
+                {field: 'vipType', title: '类别', align: 'center', width: 80}
             ]
         ]
     });
 
     function create() {
         $("#id").val("");
+        $("#code").textbox('setValue',"");
         $("#name").textbox('setValue',"");
-        $("#price").textbox('setValue',"");
-        $("#discount").textbox('setValue',"");
+        $("#tel").textbox('setValue',"");
+        $("#pwd").textbox('setValue',"");
+        $("#note").textbox('setValue',"");
+        $("#vipType").combobox('setValue',"");
         $("#btnName").html("新增");
         $("#createModal").modal({backdrop: false});
     }
     function createNew() {
+        var code=$("#code").textbox('getValue');
         var name=$("#name").textbox('getValue');
-        var price=$("#price").textbox('getValue');
-        var discount=$("#discount").textbox('getValue');
+        var tel=$("#tel").textbox('getValue');
+        var pwd=$("#pwd").textbox('getValue');
+        var note=$("#note").textbox('getValue');
+        var vipType=$("#vipType").combobox('getText');
+        if(code=="" || code ==null){
+            alertLittle("请输入会员编号");
+        }
         if(name=="" || name ==null){
-            alertLittle("请输入会员类型");
+            alertLittle("请输入会员名称");
         }
-        if(price=="" || price ==null){
-            alertLittle("请输入会员价格");
+        if(vipType=="" || vipType ==null){
+            alertLittle("请选择会员类型");
         }
-        if(discount=="" || discount ==null){
-            alertLittle("请输入会员折扣");
+        var id=$("#id").val();
+        var  url="/vipInfo/create";
+        if(id!="" && id!=null){
+            url="/vipInfo/update";
         }
-       var id=$("#id").val();
-       var  url="/vipType/create";
-       if(id!="" && id!=null){
-           url="/vipType/update";
-       }
-        $.post(url,{name:name,price:price,discount:discount,id:id},function (data) {
+        $.post(url,{code:code,name:name,tel:tel,pwd:pwd,note:note,vipType:vipType,id:id},function (data) {
             if (data.status) {
                 alertLittle(data.msg);
                 $('#grid').datagrid('reload');
@@ -178,9 +199,12 @@
             return;
         }
         $("#id").val(item.id);
-        $("#name").textbox('setValue',item.name);
-        $("#price").textbox('setValue',item.price);
-        $("#discount").textbox('setValue',item.discount);
+     $("#code").textbox('setValue',item.code);
+       $("#name").textbox('setValue',item.name);
+       $("#tel").textbox('setValue',item.tel);
+       $("#pwd").textbox('setValue',item.pwd);
+       $("#note").textbox('setValue',item.note);
+      $("#vipType").combobox('setValue',item.vipType);
         $("#btnName").html("修改");
         $("#createModal").modal({backdrop: false});
     }
@@ -194,7 +218,7 @@
     }
     function deleteDateSure() {
         var item = $('#grid').datagrid('getSelected');
-        $.post('/vipType/delete',{id:item.id},function (data) {
+        $.post('/vipInfo/delete',{id:item.id},function (data) {
             if (data.status) {
                 alertLittle(data.msg);
                 $("#deleteModal").modal('hide');

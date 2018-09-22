@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +50,18 @@ public class VipTypeController {
             map.put("total",0);
         }
         return map;
+    }
+
+    @RequestMapping(value = "/combobox",method = RequestMethod.POST)
+    @ResponseBody
+    public List<VipType> combobox()throws Exception {
+        List<VipType> list =new ArrayList<>();
+        try {
+             list = vipTypeService.queryByList(new VipType());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
