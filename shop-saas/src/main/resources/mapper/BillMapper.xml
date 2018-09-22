@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.saas.dao.BillDao">
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.power.saas.entity.Bill">
+        <result column="id" property="id"/>
+        <result column="bill_no" property="billNo"/>
+        <result column="desk_id" property="deskId"/>
+        <result column="vip_code" property="vipCode"/>
+        <result column="person_num" property="personNum"/>
+        <result column="time" property="time"/>
+        <result column="vip_name" property="vipName"/>
+        <result column="note" property="note"/>
+    </resultMap>
+
+    <!-- t_bill table all fields -->
+    <sql id="Base_Column_List">
+        id,bill_no,desk_id,vip_code,person_num,time,vip_name,note
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Base_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="billNo != null and billNo != ''">
+                and bill_no = #{billNo}
+            </if>
+            <if test="deskId != null and deskId != ''">
+                and desk_id = #{deskId}
+            </if>
+            <if test="vipCode != null and vipCode != ''">
+                and vip_code = #{vipCode}
+            </if>
+            <if test="personNum != null and personNum != ''">
+                and person_num = #{personNum}
+            </if>
+            <if test="time != null and time != ''">
+                and time = #{time}
+            </if>
+            <if test="vipName != null and vipName != ''">
+                and vip_name = #{vipName}
+            </if>
+            <if test="note != null and note != ''">
+                and note = #{note}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 插入记录 -->
+    <insert id="insert" parameterType="Bill">
+        insert into t_bill(id,bill_no,desk_id,vip_code,person_num,time,vip_name,note)
+ values(#{id},#{billNo},#{deskId},#{vipCode},#{personNum},#{time},#{vipName},#{note})
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="updateByPrimaryKey" parameterType="Bill">
+        update t_bill set bill_no=#{billNo},desk_id=#{deskId},vip_code=#{vipCode},person_num=#{personNum},time=#{time},vip_name=#{vipName},note=#{note} where id=#{id}
+    </update>
+
+    <!-- 修改记录，修改不为空的字段 -->
+    <update id="updateByPrimaryKeySelective" parameterType="Bill">
+        update t_bill set
+        <trim suffixOverrides=",">
+            <if test="billNo != null  ">
+                bill_no=#{billNo},
+            </if>
+            <if test="deskId != null  ">
+                desk_id=#{deskId},
+            </if>
+            <if test="vipCode != null  ">
+                vip_code=#{vipCode},
+            </if>
+            <if test="personNum != null  ">
+                person_num=#{personNum},
+            </if>
+            <if test="time != null  ">
+                time=#{time},
+            </if>
+            <if test="vipName != null  ">
+                vip_name=#{vipName},
+            </if>
+            <if test="note != null  ">
+                note=#{note},
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <!-- 根据id查询 开台单信息表 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_bill where id = #{id}
+    </select>
+
+    <!-- 删除记录 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete 	 from t_bill where id = #{id}
+    </delete>
+
+    <!-- 开台单信息表 列表总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="Bill">
+        select count(1) from t_bill
+        <include refid="Base_Where_Clause"/>
+    </select>
+
+    <!-- 查询开台单信息表列表 -->
+    <select id="queryByList" resultMap="BaseResultMap" parameterType="Bill">
+        select
+        <include refid="Base_Column_List"/>
+        from t_bill
+        <include refid="Base_Where_Clause"/>
+        <if test="pageUtil != null">
+            limit #{pageUtil.startRow},#{pageUtil.endRow}
+        </if>
+    </select>
+</mapper>   

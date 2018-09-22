@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.saas.dao.BillMenuDao">
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.power.saas.entity.BillMenu">
+        <result column="id" property="id"/>
+        <result column="bill_no" property="billNo"/>
+        <result column="menu_code" property="menuCode"/>
+        <result column="menu_type_code" property="menuTypeCode"/>
+        <result column="time" property="time"/>
+        <result column="num" property="num"/>
+        <result column="is_settled" property="isSettled"/>
+        <result column="note" property="note"/>
+    </resultMap>
+
+    <!-- t_bill_menu table all fields -->
+    <sql id="Base_Column_List">
+        id,bill_no,menu_code,menu_type_code,time,num,is_settled,note
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Base_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="billNo != null and billNo != ''">
+                and bill_no = #{billNo}
+            </if>
+            <if test="menuCode != null and menuCode != ''">
+                and menu_code = #{menuCode}
+            </if>
+            <if test="menuTypeCode != null and menuTypeCode != ''">
+                and menu_type_code = #{menuTypeCode}
+            </if>
+            <if test="time != null and time != ''">
+                and time = #{time}
+            </if>
+            <if test="num != null and num != ''">
+                and num = #{num}
+            </if>
+            <if test="isSettled != null and isSettled != ''">
+                and is_settled = #{isSettled}
+            </if>
+            <if test="note != null and note != ''">
+                and note = #{note}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 插入记录 -->
+    <insert id="insert" parameterType="BillMenu">
+        insert into t_bill_menu(id,bill_no,menu_code,menu_type_code,time,num,is_settled,note)
+ values(#{id},#{billNo},#{menuCode},#{menuTypeCode},#{time},#{num},#{isSettled},#{note})
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="updateByPrimaryKey" parameterType="BillMenu">
+        update t_bill_menu set bill_no=#{billNo},menu_code=#{menuCode},menu_type_code=#{menuTypeCode},time=#{time},num=#{num},is_settled=#{isSettled},note=#{note} where id=#{id}
+    </update>
+
+    <!-- 修改记录，修改不为空的字段 -->
+    <update id="updateByPrimaryKeySelective" parameterType="BillMenu">
+        update t_bill_menu set
+        <trim suffixOverrides=",">
+            <if test="billNo != null  ">
+                bill_no=#{billNo},
+            </if>
+            <if test="menuCode != null  ">
+                menu_code=#{menuCode},
+            </if>
+            <if test="menuTypeCode != null  ">
+                menu_type_code=#{menuTypeCode},
+            </if>
+            <if test="time != null  ">
+                time=#{time},
+            </if>
+            <if test="num != null  ">
+                num=#{num},
+            </if>
+            <if test="isSettled != null  ">
+                is_settled=#{isSettled},
+            </if>
+            <if test="note != null  ">
+                note=#{note},
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <!-- 根据id查询 点菜信息表 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_bill_menu where id = #{id}
+    </select>
+
+    <!-- 删除记录 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete 	 from t_bill_menu where id = #{id}
+    </delete>
+
+    <!-- 点菜信息表 列表总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="BillMenu">
+        select count(1) from t_bill_menu
+        <include refid="Base_Where_Clause"/>
+    </select>
+
+    <!-- 查询点菜信息表列表 -->
+    <select id="queryByList" resultMap="BaseResultMap" parameterType="BillMenu">
+        select
+        <include refid="Base_Column_List"/>
+        from t_bill_menu
+        <include refid="Base_Where_Clause"/>
+        <if test="pageUtil != null">
+            limit #{pageUtil.startRow},#{pageUtil.endRow}
+        </if>
+    </select>
+</mapper>   

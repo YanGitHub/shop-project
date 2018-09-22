@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.saas.dao.DeskTypeDao">
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.power.saas.entity.DeskType">
+        <result column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="num" property="num"/>
+    </resultMap>
+
+    <!-- t_desk_type table all fields -->
+    <sql id="Base_Column_List">
+        id,type,num
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Base_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="num != null and num != ''">
+                and num = #{num}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 插入记录 -->
+    <insert id="insert" parameterType="DeskType">
+        insert into t_desk_type(id,type,num)
+ values(#{id},#{type},#{num})
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="updateByPrimaryKey" parameterType="DeskType">
+        update t_desk_type set type=#{type},num=#{num} where id=#{id}
+    </update>
+
+    <!-- 修改记录，修改不为空的字段 -->
+    <update id="updateByPrimaryKeySelective" parameterType="DeskType">
+        update t_desk_type set
+        <trim suffixOverrides=",">
+            <if test="type != null  ">
+                type=#{type},
+            </if>
+            <if test="num != null  ">
+                num=#{num},
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <!-- 根据id查询 桌台类型表 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_desk_type where id = #{id}
+    </select>
+
+    <!-- 删除记录 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete 	 from t_desk_type where id = #{id}
+    </delete>
+
+    <!-- 桌台类型表 列表总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="DeskType">
+        select count(1) from t_desk_type
+        <include refid="Base_Where_Clause"/>
+    </select>
+
+    <!-- 查询桌台类型表列表 -->
+    <select id="queryByList" resultMap="BaseResultMap" parameterType="DeskType">
+        select
+        <include refid="Base_Column_List"/>
+        from t_desk_type
+        <include refid="Base_Where_Clause"/>
+        <if test="pageUtil != null">
+            limit #{pageUtil.startRow},#{pageUtil.endRow}
+        </if>
+    </select>
+</mapper>   

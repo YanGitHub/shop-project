@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.saas.dao.MenuTypeDao">
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.power.saas.entity.MenuType">
+        <result column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="discount" property="discount"/>
+        <result column="is_discount" property="isDiscount"/>
+    </resultMap>
+
+    <!-- t_menu_type table all fields -->
+    <sql id="Base_Column_List">
+        id,code,name,discount,is_discount
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Base_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="code != null and code != ''">
+                and code = #{code}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="discount != null and discount != ''">
+                and discount = #{discount}
+            </if>
+            <if test="isDiscount != null and isDiscount != ''">
+                and is_discount = #{isDiscount}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 插入记录 -->
+    <insert id="insert" parameterType="MenuType">
+        insert into t_menu_type(id,code,name,discount,is_discount)
+ values(#{id},#{code},#{name},#{discount},#{isDiscount})
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="updateByPrimaryKey" parameterType="MenuType">
+        update t_menu_type set code=#{code},name=#{name},discount=#{discount},is_discount=#{isDiscount} where id=#{id}
+    </update>
+
+    <!-- 修改记录，修改不为空的字段 -->
+    <update id="updateByPrimaryKeySelective" parameterType="MenuType">
+        update t_menu_type set
+        <trim suffixOverrides=",">
+            <if test="code != null  ">
+                code=#{code},
+            </if>
+            <if test="name != null  ">
+                name=#{name},
+            </if>
+            <if test="discount != null  ">
+                discount=#{discount},
+            </if>
+            <if test="isDiscount != null  ">
+                is_discount=#{isDiscount},
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <!-- 根据id查询 菜单类别表 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_menu_type where id = #{id}
+    </select>
+
+    <!-- 删除记录 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete 	 from t_menu_type where id = #{id}
+    </delete>
+
+    <!-- 菜单类别表 列表总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="MenuType">
+        select count(1) from t_menu_type
+        <include refid="Base_Where_Clause"/>
+    </select>
+
+    <!-- 查询菜单类别表列表 -->
+    <select id="queryByList" resultMap="BaseResultMap" parameterType="MenuType">
+        select
+        <include refid="Base_Column_List"/>
+        from t_menu_type
+        <include refid="Base_Where_Clause"/>
+        <if test="pageUtil != null">
+            limit #{pageUtil.startRow},#{pageUtil.endRow}
+        </if>
+    </select>
+</mapper>   
