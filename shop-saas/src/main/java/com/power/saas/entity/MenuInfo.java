@@ -5,7 +5,6 @@ import org.apache.ibatis.type.Alias;
 
 import java.lang.Integer;
 import java.lang.String;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -24,15 +23,24 @@ public class MenuInfo extends BaseEntity{
     //名称
 	private String name;
     //价格
-	private BigDecimal realPrice;
+	private Double realPrice;
     //单位
 	private String unit;
     //原价
-	private BigDecimal untPrice;
+	private Double untPrice;
     //积分基数
-	private BigDecimal pointBase;
+	private Double pointBase;
     //菜单类别编号 t_menu_type id
 	private Long typeId;
+	private String typeName;
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
 
 	public Long getId() {
 		return this.id;
@@ -58,11 +66,11 @@ public class MenuInfo extends BaseEntity{
 		this.name = name;
 	}
 
-	public BigDecimal getRealPrice() {
+	public Double getRealPrice() {
 		return this.realPrice;
 	}
 
-	public void setRealPrice(BigDecimal realPrice) {
+	public void setRealPrice(Double realPrice) {
 		this.realPrice = realPrice;
 	}
 
@@ -74,19 +82,19 @@ public class MenuInfo extends BaseEntity{
 		this.unit = unit;
 	}
 
-	public BigDecimal getUntPrice() {
+	public Double getUntPrice() {
 		return this.untPrice;
 	}
 
-	public void setUntPrice(BigDecimal untPrice) {
+	public void setUntPrice(Double untPrice) {
 		this.untPrice = untPrice;
 	}
 
-	public BigDecimal getPointBase() {
+	public Double getPointBase() {
 		return this.pointBase;
 	}
 
-	public void setPointBase(BigDecimal pointBase) {
+	public void setPointBase(Double pointBase) {
 		this.pointBase = pointBase;
 	}
 

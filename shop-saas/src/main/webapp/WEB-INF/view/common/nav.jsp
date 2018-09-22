@@ -19,7 +19,7 @@
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">菜单管理 <span class="caret"></span></a>
         <ul class="dropdown-menu">
             <li><a href="/menuType">菜单类别</a></li>
-            <li><a href="#">菜单信息</a></li>
+            <li><a href="/menuInfo">菜单信息</a></li>
         </ul>
     </li>
     <li class="dropdown">

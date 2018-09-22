@@ -11,11 +11,12 @@
         <result column="unt_price" property="untPrice"/>
         <result column="point_base" property="pointBase"/>
         <result column="type_id" property="typeId"/>
+        <result column="type_name" property="typeName"/>
     </resultMap>
 
     <!-- t_menu_info table all fields -->
     <sql id="Base_Column_List">
-        id,code,name,real_price,unit,unt_price,point_base,type_id
+        tmi.id,tmi.code,tmi.name,tmi.real_price,tmi.unit,tmi.unt_price,tmi.point_base,tmi.type_id
     </sql>
 
     <!-- 查询条件 -->
@@ -23,28 +24,28 @@
         where 1=1
         <trim suffixOverrides=",">
             <if test="id != null and id != ''">
-                and id = #{id}
+                and tmi.id = #{id}
             </if>
             <if test="code != null and code != ''">
-                and code = #{code}
+                and tmi.code = #{code}
             </if>
             <if test="name != null and name != ''">
-                and name = #{name}
+                and tmi.name = #{name}
             </if>
             <if test="realPrice != null and realPrice != ''">
-                and real_price = #{realPrice}
+                and tmi.real_price = #{realPrice}
             </if>
             <if test="unit != null and unit != ''">
-                and unit = #{unit}
+                and tmi.tmi.unit = #{unit}
             </if>
             <if test="untPrice != null and untPrice != ''">
-                and unt_price = #{untPrice}
+                and tmi.unt_price = #{untPrice}
             </if>
             <if test="pointBase != null and pointBase != ''">
-                and point_base = #{pointBase}
+                and tmi.point_base = #{pointBase}
             </if>
             <if test="typeId != null and typeId != ''">
-                and type_id = #{typeId}
+                and tmi.type_id = #{typeId}
             </if>
         </trim>
     </sql>
@@ -110,8 +111,10 @@
     <!-- 查询菜单信息表列表 -->
     <select id="queryByList" resultMap="BaseResultMap" parameterType="MenuInfo">
         select
+        tmt.name type_name,
         <include refid="Base_Column_List"/>
-        from t_menu_info
+        from t_menu_info tmi
+        LEFT  JOIN  t_menu_type tmt ON  tmt.id=tmi.type_id
         <include refid="Base_Where_Clause"/>
         <if test="pageUtil != null">
             limit #{pageUtil.startRow},#{pageUtil.endRow}
