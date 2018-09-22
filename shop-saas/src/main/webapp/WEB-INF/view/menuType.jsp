@@ -33,8 +33,8 @@
 
 <div class="container" style="margin-top: 60px;">
     <ol class="breadcrumb" style="margin-bottom: 10px">
-        <li><a href="#">会员管理</a></li>
-        <li><a href="#">会员类型</a></li>
+        <li><a href="#">菜单管理</a></li>
+        <li><a href="#">菜单类型</a></li>
     </ol>
 
     <div class="row">
@@ -60,11 +60,17 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h5 class="modal-title">会员类型</h5>
+                <h5 class="modal-title">菜单类型</h5>
             </div>
             <div class="modal-body">
                 <table>
                     <input id="id" hidden="hidden">
+                    <tr>
+                        <th class="tb-lab">菜单编号</th>
+                        <td>
+                            <input class="easyui-textbox" id="code" name="code" style="width:168px;height:24px">
+                        </td>
+                    </tr>
                     <tr>
                         <th class="tb-lab">类别名称</th>
                         <td>
@@ -72,15 +78,19 @@
                         </td>
                     </tr>
                     <tr>
-                        <th class="tb-lab">价格</th>
-                        <td>
-                            <input class="easyui-textbox" id="price" name="price" style="width:168px;height:24px">
-                        </td>
-                    </tr>
-                    <tr>
                         <th class="tb-lab">折扣率</th>
                         <td>
                             <input class="easyui-textbox" id="discount" name="discount" style="width:168px;height:24px">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="tb-lab">是否打折</th>
+                        <td>
+                            <select class="easyui-combobox" id="isDiscount" name="isDiscount"
+                                    style="height:24px;width:168px;">
+                                <option value="1">是</option>
+                                <option value="0">不是</option>
+                            </select>
                         </td>
                     </tr>
                 </table>
@@ -117,51 +127,65 @@
 </div>
 
 <script type="text/javascript">
-    $('#grid').datagrid({
-        rownumbers: true,
-        striped: true,
-        url: '/vipType/getList',
-        height: 450,
-        singleSelect: true,
-        pagination: true,
-        pageSize: 10,
-        columns: [
-            [
-                {field: 'id', title: '', hidden: true},
-                {field: 'name', title: '类别名称', width: 80},
-                {field: 'price', title: '价格', align: 'center', width: 100},
-                {field: 'discount', title: '折扣率', align: 'center', width: 80}
+    $(function () {
+        $('#grid').datagrid({
+            rownumbers: true,
+            striped: true,
+            url: '/menuType/getList',
+            height: 450,
+            singleSelect: true,
+            pagination: true,
+            pageSize: 10,
+            columns: [
+                [
+                    {field: 'id', title: '', hidden: true},
+                    {field: 'code', title: '菜单编号', width: 80},
+                    {field: 'name', title: '类别名称', align: 'center', width: 100},
+                    {field: 'discount', title: '折扣率', align: 'center', width: 80},
+                    {field: 'isDiscount', title: '是否打折', align: 'center', width: 80,formatter: caozuo}
+                ]
             ]
-        ]
+        });
     });
+
+
+    function caozuo(v, r, i) {
+        var str="是";
+        if(v==0){
+            str="不是"
+        }
+        return str;
+    }
 
     function create() {
         $("#id").val("");
+        $("#code").textbox('setValue',"");
         $("#name").textbox('setValue',"");
-        $("#price").textbox('setValue',"");
         $("#discount").textbox('setValue',"");
+        $("#isDiscount").combobox('setValue',"");
         $("#btnName").html("新增");
         $("#createModal").modal({backdrop: false});
     }
     function createNew() {
-        var name=$("#name").textbox('getValue');
-        var price=$("#price").textbox('getValue');
-        var discount=$("#discount").textbox('getValue');
+        var code=  $("#code").textbox('getValue');
+        var name=  $("#name").textbox('getValue');
+        var discount= $("#discount").textbox('getValue');
+        var isDiscount= $("#isDiscount").combobox('getValue');
+        if(code=="" || code ==null){
+            alertLittle("请输入菜单类型");
+        }
         if(name=="" || name ==null){
-            alertLittle("请输入会员类型");
+            alertLittle("请输入菜单名称");
         }
-        if(price=="" || price ==null){
-            alertLittle("请输入会员价格");
+        if(isDiscount=="" || isDiscount ==null){
+            alertLittle("请选择是否赠品");
         }
-        if(discount=="" || discount ==null){
-            alertLittle("请输入会员折扣");
+        var id=$("#id").val();
+        var  url="/menuType/create";
+        if(id!="" && id!=null){
+            url="/menuType/update";
         }
-       var id=$("#id").val();
-       var  url="/vipType/create";
-       if(id!="" && id!=null){
-           url="/vipType/update";
-       }
-        $.post(url,{name:name,price:price,discount:discount,id:id},function (data) {
+        $.post(url,{code:code,name:name,discount:discount,isDiscount:isDiscount,id:id},function (data) {
             if (data.status) {
                 alertLittle(data.msg);
                 $('#grid').datagrid('reload');
@@ -178,9 +202,10 @@
             return;
         }
         $("#id").val(item.id);
+        $("#code").textbox('setValue',item.code);
         $("#name").textbox('setValue',item.name);
-        $("#price").textbox('setValue',item.price);
         $("#discount").textbox('setValue',item.discount);
+        $("#isDiscount").combobox('setValue',item.isDiscount);
         $("#btnName").html("修改");
         $("#createModal").modal({backdrop: false});
     }
@@ -194,7 +219,7 @@
     }
     function deleteDateSure() {
         var item = $('#grid').datagrid('getSelected');
-        $.post('/vipType/delete',{id:item.id},function (data) {
+        $.post('/menuType/delete',{id:item.id},function (data) {
             if (data.status) {
                 alertLittle(data.msg);
                 $("#deleteModal").modal('hide');
