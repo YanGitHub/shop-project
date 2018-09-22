@@ -4,14 +4,15 @@
     <!-- Result Map-->
     <resultMap id="BaseResultMap" type="com.power.saas.entity.DeskInfo">
         <result column="id" property="id"/>
-        <result column="type_Id" property="typeId"/>
+        <result column="type_id" property="typeId"/>
+        <result column="status_id" property="statusId"/>
         <result column="name" property="name"/>
         <result column="code" property="code"/>
     </resultMap>
 
     <!-- t_desk_info table all fields -->
     <sql id="Base_Column_List">
-        id,type_Id,name,code
+        id,type_id,status_id,name,code
     </sql>
 
     <!-- 查询条件 -->
@@ -22,26 +23,29 @@
                 and id = #{id}
             </if>
             <if test="typeId != null and typeId != ''">
-                and type_Id = #{typeId}
+                and type_id = #{typeId}
+            </if>
+            <if test="statusId != null and statusId != ''">
+                and status_id = #{statusId}
             </if>
             <if test="name != null and name != ''">
                 and name = #{name}
             </if>
             <if test="code != null and code != ''">
-                and name = #{code}
+                and code = #{code}
             </if>
         </trim>
     </sql>
 
     <!-- 插入记录 -->
     <insert id="insert" parameterType="DeskInfo">
-        insert into t_desk_info(id,type_Id,name,code)
- values(#{id},#{typeId},#{name},#{code})
+        insert into t_desk_info(id,type_id,status_id,name,code)
+        values(#{id},#{typeId},#{statusId},#{name},#{code})
     </insert>
 
     <!-- 根据id，修改记录-->
     <update id="updateByPrimaryKey" parameterType="DeskInfo">
-        update t_desk_info set type_Id=#{typeId},name=#{name},code=#{code} where id=#{id}
+        update t_desk_info set type_id=#{typeId},status_id=#{statusId},name=#{name},code=#{code} where id=#{id}
     </update>
 
     <!-- 修改记录，修改不为空的字段 -->
@@ -49,7 +53,10 @@
         update t_desk_info set
         <trim suffixOverrides=",">
             <if test="typeId != null  ">
-                type_Id=#{typeId},
+                type_id=#{typeId},
+            </if>
+            <if test="statusId != null  ">
+                status_id=#{statusId},
             </if>
             <if test="name != null  ">
                 name=#{name},

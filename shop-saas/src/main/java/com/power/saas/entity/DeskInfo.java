@@ -7,6 +7,7 @@ import java.lang.Integer;
 import java.lang.String;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 
@@ -17,17 +18,23 @@ import java.util.Date;
  */
 @Alias("DeskInfo")
 public class DeskInfo extends BaseEntity{
-    //
+	//
 	private Long id;
-    //桌台类型 t_desk_type id
+	//桌台类型 t_desk_type id
 	private Long typeId;
-    //桌台名称
+	//状态 t_desk_status id
+	private Long statusId;
+	//桌台名称
 	private String name;
 	//桌台编码
 	private String code;
 
+	private DeskStatus deskStatus;
+
+	private DeskType deskType;
+
 	public Long getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(Long id) {
@@ -35,15 +42,23 @@ public class DeskInfo extends BaseEntity{
 	}
 
 	public Long getTypeId() {
-		return this.typeId;
+		return typeId;
 	}
 
 	public void setTypeId(Long typeId) {
 		this.typeId = typeId;
 	}
 
+	public Long getStatusId() {
+		return statusId;
+	}
+
+	public void setStatusId(Long statusId) {
+		this.statusId = statusId;
+	}
+
 	public String getName() {
-		return this.name;
+		return name;
 	}
 
 	public void setName(String name) {
@@ -56,6 +71,22 @@ public class DeskInfo extends BaseEntity{
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public DeskStatus getDeskStatus() {
+		return deskStatus;
+	}
+
+	public void setDeskStatus(DeskStatus deskStatus) {
+		this.deskStatus = deskStatus;
+	}
+
+	public DeskType getDeskType() {
+		return deskType;
+	}
+
+	public void setDeskType(DeskType deskType) {
+		this.deskType = deskType;
 	}
 }
 

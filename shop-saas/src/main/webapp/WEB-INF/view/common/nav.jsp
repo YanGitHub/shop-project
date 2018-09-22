@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <ul class="nav navbar-nav">
-    <li><a href="#">点餐</a></li>
+    <li><a href="/orderFood">点餐</a></li>
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">会员管理 <span class="caret"></span></a>
         <ul class="dropdown-menu">
@@ -13,7 +13,6 @@
         <ul class="dropdown-menu">
             <li><a href="#">桌台类别</a></li>
             <li><a href="#">桌台信息</a></li>
-            <li><a href="#">桌台状态</a></li>
         </ul>
     </li>
     <li class="dropdown">
