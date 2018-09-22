@@ -1,0 +1,11 @@
+html,body {
+    height: 100%;
+}
+table .tb-lab {
+    min-width: 75px;
+    font-weight: normal;
+    font-size: 12px;
+    text-align: left;
+}
+
+
