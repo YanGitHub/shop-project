@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.saas.dao.OrderDao">
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.power.saas.entity.Order">
+        <result column="id" property="id"/>
+        <result column="time" property="time"/>
+        <result column="receivable" property="receivable"/>
+        <result column="actual_receipt" property="actualReceipt"/>
+    </resultMap>
+
+    <!-- t_order table all fields -->
+    <sql id="Base_Column_List">
+        id,time,receivable,actual_receipt
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Base_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="time != null and time != ''">
+                and time = #{time}
+            </if>
+            <if test="receivable != null and receivable != ''">
+                and receivable = #{receivable}
+            </if>
+            <if test="actualReceipt != null and actualReceipt != ''">
+                and actual_receipt = #{actualReceipt}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 插入记录 -->
+    <insert id="insert" parameterType="Order">
+        insert into t_order(id,time,receivable,actual_receipt)
+ values(#{id},#{time},#{receivable},#{actualReceipt})
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="updateByPrimaryKey" parameterType="Order">
+        update t_order set time=#{time},receivable=#{receivable},actual_receipt=#{actualReceipt} where id=#{id}
+    </update>
+
+    <!-- 修改记录，修改不为空的字段 -->
+    <update id="updateByPrimaryKeySelective" parameterType="Order">
+        update t_order set
+        <trim suffixOverrides=",">
+            <if test="time != null  ">
+                time=#{time},
+            </if>
+            <if test="receivable != null  ">
+                receivable=#{receivable},
+            </if>
+            <if test="actualReceipt != null  ">
+                actual_receipt=#{actualReceipt},
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <!-- 根据id查询 销售统计表 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_order where id = #{id}
+    </select>
+
+    <!-- 删除记录 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete 	 from t_order where id = #{id}
+    </delete>
+
+    <!-- 销售统计表 列表总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="Order">
+        select count(1) from t_order
+        <include refid="Base_Where_Clause"/>
+    </select>
+
+    <!-- 查询销售统计表列表 -->
+    <select id="queryByList" resultMap="BaseResultMap" parameterType="Order">
+        select
+        <include refid="Base_Column_List"/>
+        from t_order
+        <include refid="Base_Where_Clause"/>
+        <if test="pageUtil != null">
+            limit #{pageUtil.startRow},#{pageUtil.endRow}
+        </if>
+    </select>
+</mapper>   

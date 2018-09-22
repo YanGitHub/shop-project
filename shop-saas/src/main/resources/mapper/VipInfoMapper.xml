@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.saas.dao.VipInfoDao">
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.power.saas.entity.VipInfo">
+        <result column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="tel" property="tel"/>
+        <result column="pwd" property="pwd"/>
+        <result column="note" property="note"/>
+        <result column="vip_type" property="vipType"/>
+    </resultMap>
+
+    <!-- t_vip_info table all fields -->
+    <sql id="Base_Column_List">
+        id,code,name,tel,pwd,note,vip_type
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Base_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="code != null and code != ''">
+                and code = #{code}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="tel != null and tel != ''">
+                and tel = #{tel}
+            </if>
+            <if test="pwd != null and pwd != ''">
+                and pwd = #{pwd}
+            </if>
+            <if test="note != null and note != ''">
+                and note = #{note}
+            </if>
+            <if test="vipType != null and vipType != ''">
+                and vip_type = #{vipType}
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 插入记录 -->
+    <insert id="insert" parameterType="VipInfo">
+        insert into t_vip_info(id,code,name,tel,pwd,note,vip_type)
+ values(#{id},#{code},#{name},#{tel},#{pwd},#{note},#{vipType})
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="updateByPrimaryKey" parameterType="VipInfo">
+        update t_vip_info set code=#{code},name=#{name},tel=#{tel},pwd=#{pwd},note=#{note},vip_type=#{vipType} where id=#{id}
+    </update>
+
+    <!-- 修改记录，修改不为空的字段 -->
+    <update id="updateByPrimaryKeySelective" parameterType="VipInfo">
+        update t_vip_info set
+        <trim suffixOverrides=",">
+            <if test="code != null  ">
+                code=#{code},
+            </if>
+            <if test="name != null  ">
+                name=#{name},
+            </if>
+            <if test="tel != null  ">
+                tel=#{tel},
+            </if>
+            <if test="pwd != null  ">
+                pwd=#{pwd},
+            </if>
+            <if test="note != null  ">
+                note=#{note},
+            </if>
+            <if test="vipType != null  ">
+                vip_type=#{vipType},
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <!-- 根据id查询 会员信息表 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_vip_info where id = #{id}
+    </select>
+
+    <!-- 删除记录 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete 	 from t_vip_info where id = #{id}
+    </delete>
+
+    <!-- 会员信息表 列表总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="VipInfo">
+        select count(1) from t_vip_info
+        <include refid="Base_Where_Clause"/>
+    </select>
+
+    <!-- 查询会员信息表列表 -->
+    <select id="queryByList" resultMap="BaseResultMap" parameterType="VipInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from t_vip_info
+        <include refid="Base_Where_Clause"/>
+        <if test="pageUtil != null">
+            limit #{pageUtil.startRow},#{pageUtil.endRow}
+        </if>
+    </select>
+</mapper>   
