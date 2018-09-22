@@ -32,12 +32,6 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
         }
         HttpSession session = request.getSession();
 
-        //用户已登录
-        User user = (User) session.getAttribute("currentUser");
-        if (user != null){
-            return true;
-        }
-
         //登录页面
         if (servletPath.equals("/login")){
             return true;
@@ -48,11 +42,14 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        if (session == null || servletPath.equals("")){
+        //用户已登录
+        User user = (User) session.getAttribute("currentUser");
+        if (user != null){
+            return true;
+        }else {
             response.sendRedirect("/login");
             return false;
         }
-        return false;
     }
 
     @Override
