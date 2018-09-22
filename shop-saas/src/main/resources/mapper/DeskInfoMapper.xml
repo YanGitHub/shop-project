@@ -6,11 +6,12 @@
         <result column="id" property="id"/>
         <result column="type_Id" property="typeId"/>
         <result column="name" property="name"/>
+        <result column="code" property="code"/>
     </resultMap>
 
     <!-- t_desk_info table all fields -->
     <sql id="Base_Column_List">
-        id,type_Id,name
+        id,type_Id,name,code
     </sql>
 
     <!-- 查询条件 -->
@@ -26,18 +27,21 @@
             <if test="name != null and name != ''">
                 and name = #{name}
             </if>
+            <if test="code != null and code != ''">
+                and name = #{code}
+            </if>
         </trim>
     </sql>
 
     <!-- 插入记录 -->
     <insert id="insert" parameterType="DeskInfo">
-        insert into t_desk_info(id,type_Id,name)
- values(#{id},#{typeId},#{name})
+        insert into t_desk_info(id,type_Id,name,code)
+ values(#{id},#{typeId},#{name},#{code})
     </insert>
 
     <!-- 根据id，修改记录-->
     <update id="updateByPrimaryKey" parameterType="DeskInfo">
-        update t_desk_info set type_Id=#{typeId},name=#{name} where id=#{id}
+        update t_desk_info set type_Id=#{typeId},name=#{name},code=#{code} where id=#{id}
     </update>
 
     <!-- 修改记录，修改不为空的字段 -->
@@ -49,6 +53,9 @@
             </if>
             <if test="name != null  ">
                 name=#{name},
+            </if>
+            <if test="code != null  ">
+                code=#{code},
             </if>
         </trim>
         where id=#{id}

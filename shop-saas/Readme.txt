@@ -3,6 +3,7 @@
 数据库连接请参考 jdbc.properties文件
 项目运行在tomcat上
 
+访问地址：localhost:8080/login
 运行后管理员账号为admin密码为admin
 操作员账号为user密码为user
 

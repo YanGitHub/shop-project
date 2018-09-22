@@ -23,6 +23,8 @@ public class DeskInfo extends BaseEntity{
 	private Long typeId;
     //桌台名称
 	private String name;
+	//桌台编码
+	private String code;
 
 	public Long getId() {
 		return this.id;
@@ -46,6 +48,14 @@ public class DeskInfo extends BaseEntity{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 }
 
