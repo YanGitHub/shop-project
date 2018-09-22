@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,7 +114,7 @@ public class VipInfoController {
     }
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> update(@RequestParam(value = "id",required =false) Long id) {
+    public Map<String, Object> delete(@RequestParam(value = "id",required =false) Long id) {
         Map<String, Object> map = new HashMap<String, Object>();
         try {
             vipInfoService.deleteByPrimaryKey(id);
@@ -125,5 +126,18 @@ public class VipInfoController {
             map.put("msg","删除失败");
         }
         return map;
+    }
+
+    @RequestMapping(value = "/getAll",method = RequestMethod.POST)
+    @ResponseBody
+    public List<VipInfo> getAll(VipInfo vipInfo)throws Exception {
+        List<VipInfo> list = new ArrayList<VipInfo>();
+        try {
+            list = vipInfoService.queryByList(vipInfo);
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+        return list;
     }
 }

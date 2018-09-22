@@ -26,7 +26,7 @@ public class DeskStatus extends BaseEntity{
     //人数
 	private Integer personNum;
     //时间
-	private Date time;
+	private String time;
     //手机
 	private String tel;
     //备注
@@ -66,11 +66,11 @@ public class DeskStatus extends BaseEntity{
 		this.personNum = personNum;
 	}
 
-	public Date getTime() {
+	public String getTime() {
 		return this.time;
 	}
 
-	public void setTime(Date time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 
