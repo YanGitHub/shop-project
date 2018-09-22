@@ -24,7 +24,7 @@ public class MenuType extends BaseEntity{
     //类别名称
 	private String name;
     //折扣率
-	private BigDecimal discount;
+	private Double discount;
     //是否打折 1 是 0 不是
 	private Integer isDiscount;
 
@@ -52,11 +52,11 @@ public class MenuType extends BaseEntity{
 		this.name = name;
 	}
 
-	public BigDecimal getDiscount() {
+	public Double getDiscount() {
 		return this.discount;
 	}
 
-	public void setDiscount(BigDecimal discount) {
+	public void setDiscount(Double discount) {
 		this.discount = discount;
 	}
 
