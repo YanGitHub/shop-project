@@ -22,9 +22,9 @@ public class VipType extends BaseEntity{
     //类别名称
 	private String name;
     //价格
-	private BigDecimal price;
+	private Double price;
     //折扣率
-	private BigDecimal discount;
+	private Double discount;
 
 	public Long getId() {
 		return this.id;
@@ -42,19 +42,19 @@ public class VipType extends BaseEntity{
 		this.name = name;
 	}
 
-	public BigDecimal getPrice() {
-		return this.price;
+	public Double getPrice() {
+		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
-	public BigDecimal getDiscount() {
-		return this.discount;
+	public Double getDiscount() {
+		return discount;
 	}
 
-	public void setDiscount(BigDecimal discount) {
+	public void setDiscount(Double discount) {
 		this.discount = discount;
 	}
 }

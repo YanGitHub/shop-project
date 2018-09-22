@@ -55,4 +55,8 @@ public class VipTypeService {
     public List<VipType> queryByList(VipType record) {
         return dao.queryByList(record);
     }
+
+    public void create(VipType vipType) {
+        dao.insert(vipType);
+    }
 }
